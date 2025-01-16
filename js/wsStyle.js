@@ -1,4 +1,4 @@
-import {Stroke, Style} from "ol/style.js";
+import {Stroke, Style, Circle, Fill} from "ol/style.js";
 
 /**
  * Style for drawn water streets
@@ -12,6 +12,16 @@ export default function createWSStyle () {
             stroke: new Stroke({
                 color: [255, 255, 255, 1.0],
                 width: 9
+            }),
+            image: new Circle({
+                radius: 6,
+                stroke: new Stroke({
+                    color: [255, 255, 255, 1.0],
+                    width: 2
+                }),
+                fill: new Fill({
+                    color: [51, 153, 255, 1.0]
+                })
             })
         }),
         new Style({

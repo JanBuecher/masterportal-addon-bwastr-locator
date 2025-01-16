@@ -197,7 +197,7 @@ export default {
                 :placeholder="translate('additional:modules.tools.bWaStrLocator.fromKMPlaceholder')"
                 :aria-label="translate('additional:modules.tools.bWaStrLocator.fromKMPlaceholder')"
                 :label="translate('additional:modules.tools.bWaStrLocator.fromKMPlaceholder')"
-                :input="(newValue) => {setFromKilometer(newValue)}"
+                :input="(newValue) => {setFromKilometer(newValue.replace(',', '.'));}"
             />
             <InputText
                 id="ws-locator-till"
@@ -205,7 +205,7 @@ export default {
                 :placeholder="translate('additional:modules.tools.bWaStrLocator.toKMPlaceholder')"
                 :aria-label="translate('additional:modules.tools.bWaStrLocator.toKMPlaceholder')"
                 :label="translate('additional:modules.tools.bWaStrLocator.toKMPlaceholder')"
-                :input="(newValue) => {setToKilometer(newValue);}"
+                :input="(newValue) => {setToKilometer(newValue.replace(',', '.'));}"
             />
             <FlatButton
                 :id="'show-water-street'"

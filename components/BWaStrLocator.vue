@@ -108,8 +108,9 @@ export default {
             return response.status === 200 ? response.data.result : [];
         },
         async fetchGeocoding (wsId, fromKM, toKM) {
-            const response = await axios.get(
-                this.geocodingQueryAPI + "?bwastrid=" + wsId + "&km_von=" + fromKM + "&km_bis=" + toKM +
+            const kilometer_param = toKM.length !== 0 ? "&km_von=" + fromKM + "&km_bis=" + toKM : "&km_wert=" + fromKM,
+                response = await axios.get(
+                this.geocodingQueryAPI + "?bwastrid=" + wsId + kilometer_param +
                 "&wkid=" + this.wkId
             );
 

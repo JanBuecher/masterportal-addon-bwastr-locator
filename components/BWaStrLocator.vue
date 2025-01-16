@@ -33,6 +33,7 @@ export default {
         }
     },
     mounted () {
+        this.setFocusToFirstControl();
         if (this.bwastrid) {
             this.fetchFromBackendById(this.bwastrid).then(bwastr => {
                 if (bwastr) {
@@ -48,6 +49,17 @@ export default {
         this.reset();
     },
     methods: {
+        /**
+         * Sets the focus to the first control
+         * @returns {void}
+         */
+        setFocusToFirstControl () {
+            this.$nextTick(() => {
+                if (this.$refs["ws-locator-search"]) {
+                    this.$refs["ws-locator-search"].$el.firstChild.focus();
+                }
+            });
+        },
         getSearchResultColumns () {
             return [
                 {
@@ -149,6 +161,7 @@ export default {
     <div class="ws-search">
         <InputText
             id="ws-locator-search"
+            ref="ws-locator-search"
             :value="searchText"
             :placeholder="translate('additional:modules.tools.bWaStrLocator.searchPlaceholder')"
             :aria-label="translate('additional:modules.tools.bWaStrLocator.searchPlaceholder')"

@@ -32,6 +32,18 @@ export default {
             this.init();
         }
     },
+    mounted () {
+        if (this.bwastrid) {
+            this.fetchFromBackendById(this.bwastrid).then(bwastr => {
+                if (bwastr) {
+                    this.setSearchText(bwastr.concat_name);
+                    this.setSelectedWaterStreet(bwastr);
+                    this.showWaterStreet(false);
+                }
+            });
+            this.setBwastrid(undefined);
+        }
+    },
     beforeUnmount () {
         this.reset();
     },
@@ -46,6 +58,7 @@ export default {
             ];
         },
         search (searchText) {
+            this.setSearchText(searchText);
             this.clearSelectedData();
             if (searchText.length > 1) {
                 this.debounce(() => {
@@ -76,14 +89,14 @@ export default {
         translate (key, options = null) {
             return this.$t(key, options);
         },
-        showWaterStreet () {
+        showWaterStreet (zoomToExtend = true) {
             this.adjustFromAndToValues();
             this.fetchGeocoding(this.selectedWaterStreet.bwastrid, this.fromKilometer, this.toKilometer).then(geocoding => {
                 if (geocoding.length > 0) {
                     this.geocoding = geocoding[0];
                     const geometry = this.geocoding.geometry;
 
-                    this.drawWaterStreetToMap({geometry});
+                    this.drawWaterStreetToMap({geometry, zoomToExtend});
                 }
             });
         },
@@ -106,6 +119,11 @@ export default {
             );
 
             return response.status === 200 ? response.data.result : [];
+        },
+        async fetchFromBackendById (id) {
+            const response = await axios.get(this.wsQueryAPI + "?searchterm=" + id + "&searchfield=bwastrid");
+
+            return response.status === 200 ? response.data.result.find(result => result.bwastrid === id) : undefined;
         },
         async fetchGeocoding (wsId, fromKM, toKM) {
             const kilometer_param = toKM.length !== 0 ? "&km_von=" + fromKM + "&km_bis=" + toKM : "&km_wert=" + fromKM,

@@ -17,6 +17,7 @@ const state = {
     resizableWindow: true,
     isVisibleInMenu: true,
     deactivateGFI: false,
+    bwastrid: null,
     selectedWaterStreet: null,
     searchText: "",
     toKilometer: 0,

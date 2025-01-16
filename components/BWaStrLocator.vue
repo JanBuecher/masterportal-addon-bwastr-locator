@@ -32,20 +32,20 @@ export default {
             this.init();
         }
     },
+    mounted () {
+        if (this.bwastrid) {
+            this.fetchFromBackendById(this.bwastrid).then(bwastr => {
+                if (bwastr) {
+                    this.setSearchText(bwastr.concat_name);
+                    this.setSelectedWaterStreet(bwastr);
+                    this.showWaterStreet(false);
+                }
+            });
+            this.setBwastrid(undefined);
+        }
+    },
     beforeUnmount () {
         this.reset();
-    },
-    mounted () {
-      if (this.bwastrid) {
-        this.fetchFromBackendById(this.bwastrid).then(bwastr => {
-          if (bwastr) {
-            this.setSearchText(bwastr.concat_name);
-            this.setSelectedWaterStreet(bwastr);
-            this.showWaterStreet();
-          }
-        });
-        this.setBwastrid(undefined);
-      }
     },
     methods: {
         getSearchResultColumns () {
@@ -121,9 +121,9 @@ export default {
             return response.status === 200 ? response.data.result : [];
         },
         async fetchFromBackendById (id) {
-          const response = await axios.get(this.wsQueryAPI + "?searchterm=" + id + "&searchfield=bwastrid");
+            const response = await axios.get(this.wsQueryAPI + "?searchterm=" + id + "&searchfield=bwastrid");
 
-          return response.status === 200 ? response.data.result.find(result => result.bwastrid === id) : undefined;
+            return response.status === 200 ? response.data.result.find(result => result.bwastrid === id) : undefined;
         },
         async fetchGeocoding (wsId, fromKM, toKM) {
             const kilometer_param = toKM.length !== 0 ? "&km_von=" + fromKM + "&km_bis=" + toKM : "&km_wert=" + fromKM,
